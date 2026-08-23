@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Lint
+        run: python -m ruff check src tests app.py
+      - name: Run tests
+        run: PYTHONPATH=src python -m pytest
+      - name: Smoke test sample prediction imports
+        run: PYTHONPATH=src python -c "from loan_status_prediction.demo_data import load_sample_applications; assert len(load_sample_applications()) > 0"

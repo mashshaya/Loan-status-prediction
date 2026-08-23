@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="395" viewBox="0 0 900 395">
+
+<style>
+  text { font-family: Helvetica, Arial, sans-serif; fill: #172026; }
+  .title { font-size: 20px; font-weight: 700; }
+  .axis { stroke: #83919c; stroke-width: 1; }
+  .grid { stroke: #d8e0e6; stroke-width: 1; }
+  .line { fill: none; stroke: #0f766e; stroke-width: 3; }
+  .baseline { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 6 6; }
+  .bar { fill: #2563eb; }
+  .label { font-size: 12px; }
+  .small { font-size: 11px; fill: #52616b; }
+</style>
+
+
+<rect width="900" height="395" fill="#f8fafc"/>
+<text class="title" x="20" y="36">Top XGBoost SHAP Importances</text>
+<text class="label" x="20" y="80">categorical__previous_loan_defaults_on_fil</text><rect class="bar" x="300" y="62" width="555.0" height="20" rx="4"/><text class="small" x="863.0" y="77">3.8175</text><text class="label" x="20" y="110">categorical__previous_loan_defaults_on_fil</text><rect class="bar" x="300" y="92" width="143.8" height="20" rx="4"/><text class="small" x="451.77280782392415" y="107">0.9889</text><text class="label" x="20" y="140">numeric__loan_percent_income</text><rect class="bar" x="300" y="122" width="112.6" height="20" rx="4"/><text class="small" x="420.62793306909083" y="137">0.7747</text><text class="label" x="20" y="170">numeric__loan_int_rate</text><rect class="bar" x="300" y="152" width="94.8" height="20" rx="4"/><text class="small" x="402.8347972083413" y="167">0.6523</text><text class="label" x="20" y="200">numeric__person_income</text><rect class="bar" x="300" y="182" width="64.4" height="20" rx="4"/><text class="small" x="372.3934491750833" y="197">0.4429</text><text class="label" x="20" y="230">categorical__person_home_ownership_RENT</text><rect class="bar" x="300" y="212" width="42.1" height="20" rx="4"/><text class="small" x="350.0745045796923" y="227">0.2894</text><text class="label" x="20" y="260">numeric__cb_person_cred_hist_length</text><rect class="bar" x="300" y="242" width="36.9" height="20" rx="4"/><text class="small" x="344.87015209514925" y="257">0.2536</text><text class="label" x="20" y="290">categorical__person_home_ownership_OWN</text><rect class="bar" x="300" y="272" width="32.6" height="20" rx="4"/><text class="small" x="340.6479518917462" y="287">0.2246</text><text class="label" x="20" y="320">numeric__credit_score</text><rect class="bar" x="300" y="302" width="29.2" height="20" rx="4"/><text class="small" x="337.1631046429841" y="317">0.2006</text><text class="label" x="20" y="350">categorical__loan_intent_VENTURE</text><rect class="bar" x="300" y="332" width="27.6" height="20" rx="4"/><text class="small" x="335.5904577723427" y="347">0.1898</text>
+
+</svg>

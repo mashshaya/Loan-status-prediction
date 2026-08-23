@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="545" viewBox="0 0 900 545">
+
+<style>
+  text { font-family: Helvetica, Arial, sans-serif; fill: #172026; }
+  .title { font-size: 20px; font-weight: 700; }
+  .axis { stroke: #83919c; stroke-width: 1; }
+  .grid { stroke: #d8e0e6; stroke-width: 1; }
+  .line { fill: none; stroke: #0f766e; stroke-width: 3; }
+  .baseline { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 6 6; }
+  .bar { fill: #2563eb; }
+  .label { font-size: 12px; }
+  .small { font-size: 11px; fill: #52616b; }
+</style>
+
+
+<rect width="900" height="545" fill="#f8fafc"/>
+<text class="title" x="20" y="36">Top XGBoost Feature Importances</text>
+<text class="label" x="20" y="80">categorical__previous_loan_defaults_on_fil</text><rect class="bar" x="300" y="62" width="555.0" height="20" rx="4"/><text class="small" x="863.0" y="77">0.5669</text><text class="label" x="20" y="110">categorical__previous_loan_defaults_on_fil</text><rect class="bar" x="300" y="92" width="329.7" height="20" rx="4"/><text class="small" x="637.6670788214476" y="107">0.3367</text><text class="label" x="20" y="140">categorical__person_home_ownership_RENT</text><rect class="bar" x="300" y="122" width="12.5" height="20" rx="4"/><text class="small" x="320.4961230130223" y="137">0.0128</text><text class="label" x="20" y="170">categorical__loan_intent_VENTURE</text><rect class="bar" x="300" y="152" width="11.5" height="20" rx="4"/><text class="small" x="319.46501310589116" y="167">0.0117</text><text class="label" x="20" y="200">numeric__loan_int_rate</text><rect class="bar" x="300" y="182" width="8.1" height="20" rx="4"/><text class="small" x="316.10931398505835" y="197">0.0083</text><text class="label" x="20" y="230">numeric__loan_percent_income</text><rect class="bar" x="300" y="212" width="6.9" height="20" rx="4"/><text class="small" x="314.87091860311074" y="227">0.0070</text><text class="label" x="20" y="260">categorical__person_home_ownership_OWN</text><rect class="bar" x="300" y="242" width="6.3" height="20" rx="4"/><text class="small" x="314.3427296507777" y="257">0.0065</text><text class="label" x="20" y="290">numeric__cb_person_cred_hist_length</text><rect class="bar" x="300" y="272" width="5.8" height="20" rx="4"/><text class="small" x="313.77364808286916" y="287">0.0059</text><text class="label" x="20" y="320">numeric__person_income</text><rect class="bar" x="300" y="302" width="4.2" height="20" rx="4"/><text class="small" x="312.240320654711" y="317">0.0043</text><text class="label" x="20" y="350">categorical__loan_intent_DEBTCONSOLIDATION</text><rect class="bar" x="300" y="332" width="3.9" height="20" rx="4"/><text class="small" x="311.9365567080162" y="347">0.0040</text><text class="label" x="20" y="380">numeric__person_emp_exp</text><rect class="bar" x="300" y="362" width="3.9" height="20" rx="4"/><text class="small" x="311.85051987391694" y="377">0.0039</text><text class="label" x="20" y="410">categorical__loan_intent_PERSONAL</text><rect class="bar" x="300" y="392" width="3.8" height="20" rx="4"/><text class="small" x="311.7920140608391" y="407">0.0039</text><text class="label" x="20" y="440">categorical__loan_intent_EDUCATION</text><rect class="bar" x="300" y="422" width="3.8" height="20" rx="4"/><text class="small" x="311.75592512747096" y="437">0.0038</text><text class="label" x="20" y="470">categorical__person_home_ownership_MORTGAG</text><rect class="bar" x="300" y="452" width="3.6" height="20" rx="4"/><text class="small" x="311.5734964400394" y="467">0.0037</text><text class="label" x="20" y="500">categorical__loan_intent_HOMEIMPROVEMENT</text><rect class="bar" x="300" y="482" width="3.2" height="20" rx="4"/><text class="small" x="311.2296465699647" y="497">0.0033</text>
+
+</svg>

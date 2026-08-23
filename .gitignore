@@ -1,0 +1,13 @@
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+*.pyc
+*.joblib
+Data/*.csv
+Data/*.zip
+models/*.joblib
+models/*.pkl
+models/best_model_metadata.json
+reports/predictions.csv
+reports/*.html
+reports/*.png

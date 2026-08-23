@@ -1,0 +1,36 @@
+{
+  "rows": 45000,
+  "target_rate": 0.2222,
+  "suspect_features": {
+    "previous_loan_defaults_on_file": [
+      {
+        "previous_loan_defaults_on_file": "No",
+        "rows": 22142,
+        "target_rate": 0.4516
+      },
+      {
+        "previous_loan_defaults_on_file": "Yes",
+        "rows": 22858,
+        "target_rate": 0.0
+      }
+    ]
+  },
+  "baseline_with_all_features": {
+    "excluded_features": [],
+    "feature_count": 13,
+    "roc_auc": 0.9562,
+    "f1": 0.7447
+  },
+  "baseline_without_suspect_features": {
+    "excluded_features": [
+      "previous_loan_defaults_on_file"
+    ],
+    "feature_count": 12,
+    "roc_auc": 0.8599,
+    "f1": 0.6097
+  },
+  "notes": [
+    "A category with a near-perfect target split can indicate leakage or an overly dominant business rule.",
+    "Confirm that suspect features are available before the loan decision in the real process."
+  ]
+}

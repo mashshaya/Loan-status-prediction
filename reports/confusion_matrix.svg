@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="460" viewBox="0 0 560 460">
+
+<style>
+  text { font-family: Helvetica, Arial, sans-serif; fill: #172026; }
+  .title { font-size: 20px; font-weight: 700; }
+  .axis { stroke: #83919c; stroke-width: 1; }
+  .grid { stroke: #d8e0e6; stroke-width: 1; }
+  .line { fill: none; stroke: #0f766e; stroke-width: 3; }
+  .baseline { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 6 6; }
+  .bar { fill: #2563eb; }
+  .label { font-size: 12px; }
+  .small { font-size: 11px; fill: #52616b; }
+</style>
+
+
+<rect width="560" height="460" fill="#f8fafc"/>
+<text class="title" x="40" y="42">Confusion Matrix at threshold 0.95</text>
+<text class="label" x="184" y="79">Predicted 0</text>
+<text class="label" x="324" y="79">Predicted 1</text>
+<text class="label" x="58" y="170">Actual 0</text>
+<text class="label" x="58" y="310">Actual 1</text>
+<rect x="150" y="95" width="140" height="140" fill="rgba(37, 99, 235, 0.900)" stroke="#f8fafc" stroke-width="4"/><text class="label" x="204" y="153">TN</text><text class="title" x="195" y="190">6979</text><rect x="290" y="95" width="140" height="140" fill="rgba(37, 99, 235, 0.182)" stroke="#f8fafc" stroke-width="4"/><text class="label" x="344" y="153">FP</text><text class="title" x="335" y="190">21</text><rect x="150" y="235" width="140" height="140" fill="rgba(37, 99, 235, 0.260)" stroke="#f8fafc" stroke-width="4"/><text class="label" x="204" y="293">FN</text><text class="title" x="195" y="330">779</text><rect x="290" y="235" width="140" height="140" fill="rgba(37, 99, 235, 0.306)" stroke="#f8fafc" stroke-width="4"/><text class="label" x="344" y="293">TP</text><text class="title" x="335" y="330">1221</text>
+
+</svg>

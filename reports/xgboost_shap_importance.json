@@ -1,0 +1,49 @@
+{
+  "model": "xgboost",
+  "sample_size": 100,
+  "top_n": 10,
+  "shap_importance_path": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/xgboost_shap_importance.csv",
+  "shap_importance_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/xgboost_shap_importance.svg",
+  "top_features": [
+    {
+      "feature": "categorical__previous_loan_defaults_on_file_No",
+      "mean_abs_shap": 3.8174524307250977
+    },
+    {
+      "feature": "categorical__previous_loan_defaults_on_file_Yes",
+      "mean_abs_shap": 0.9889114499092102
+    },
+    {
+      "feature": "numeric__loan_percent_income",
+      "mean_abs_shap": 0.7746878862380981
+    },
+    {
+      "feature": "numeric__loan_int_rate",
+      "mean_abs_shap": 0.6523014903068542
+    },
+    {
+      "feature": "numeric__person_income",
+      "mean_abs_shap": 0.44291698932647705
+    },
+    {
+      "feature": "categorical__person_home_ownership_RENT",
+      "mean_abs_shap": 0.28940075635910034
+    },
+    {
+      "feature": "numeric__cb_person_cred_hist_length",
+      "mean_abs_shap": 0.2536036968231201
+    },
+    {
+      "feature": "categorical__person_home_ownership_OWN",
+      "mean_abs_shap": 0.2245621681213379
+    },
+    {
+      "feature": "numeric__credit_score",
+      "mean_abs_shap": 0.20059236884117126
+    },
+    {
+      "feature": "categorical__loan_intent_VENTURE",
+      "mean_abs_shap": 0.1897752434015274
+    }
+  ]
+}

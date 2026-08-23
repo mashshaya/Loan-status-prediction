@@ -1,0 +1,30 @@
+[project]
+name = "loan-status-prediction"
+version = "0.1.0"
+description = "Reusable ML pipeline for loan status prediction."
+requires-python = ">=3.11"
+dependencies = [
+  "pandas",
+  "numpy",
+  "scikit-learn",
+  "matplotlib",
+  "seaborn",
+  "scipy",
+  "statsmodels",
+  "imbalanced-learn",
+  "xgboost",
+  "joblib",
+  "jupyter",
+  "pytest",
+  "shap",
+  "streamlit",
+  "ruff",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
