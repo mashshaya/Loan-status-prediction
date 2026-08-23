@@ -1,5 +1,13 @@
 # Loan Status Prediction
 
+## TL;DR
+
+- Portfolio ML project for predicting loan approval status with reproducible Python pipelines, reports, tests, and a small Streamlit demo.
+- The production-style setup uses the `no_leakage` feature set, excluding `previous_loan_defaults_on_file` as a suspicious leakage-prone feature.
+- Best current model: XGBoost with test ROC-AUC `0.9325`, test F1 `0.7247`, and selected business-cost threshold `0.88`.
+- The project includes leakage diagnostics, cross-validation, calibration, fairness checks, SHAP explainability, and generated SVG reports.
+- Short results notebook: [`notebooks/02_results_summary.ipynb`](notebooks/02_results_summary.ipynb).
+
 Credit scoring pet project for predicting whether a loan application is approved.
 
 The current version keeps the original exploratory notebook and adds reusable
