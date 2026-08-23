@@ -4,7 +4,9 @@ Credit scoring pet project for predicting whether a loan application is approved
 
 The current version keeps the original exploratory notebook and adds reusable
 Python pipelines for loading data, preprocessing features, comparing models,
-choosing decision thresholds, and exporting explainability reports.
+choosing decision thresholds, and exporting explainability reports. The default
+modeling path uses the `no_leakage` feature set, which excludes the suspicious
+`previous_loan_defaults_on_file` feature from the production-style model.
 
 ## Data
 
@@ -160,23 +162,27 @@ before improving Random Forest, XGBoost, threshold tuning, and explainability.
 
 ## Model Comparison
 
-The model comparison workflow uses the same train/test split and metric format
-for all models. Random Forest and XGBoost are tuned with cross-validation, and
-SMOTE is placed inside the `imblearn` pipeline so resampling is fit separately
-inside each training fold.
+The model comparison workflow now uses a train/validation/test split. Model
+hyperparameters are tuned on training folds, decision thresholds are selected on
+the validation split, and final headline metrics are reported on the untouched
+test split.
+
+Random Forest uses SMOTE inside the `imblearn` pipeline. XGBoost uses
+`scale_pos_weight` without SMOTE to avoid double-compensating class imbalance.
 
 The current business-cost assumption is:
 
 - false positive: `5.0`, approving a loan that should have been rejected
 - false negative: `1.0`, rejecting a loan that could have been approved
 
-The latest short tuning run selected XGBoost as the best business-cost model:
+The latest no-leakage tuning run selected XGBoost as the best business-cost
+model:
 
-| Model | ROC-AUC | Best F1 | Cost threshold | Business cost |
-| --- | ---: | ---: | ---: | ---: |
-| XGBoost | 0.9753 | 0.8359 | 0.95 | 884 |
-| Random Forest | 0.9731 | 0.8276 | 0.82 | 936 |
-| Logistic Regression | 0.9562 | 0.7778 | 0.95 | 1458 |
+| Model | Feature set | Test ROC-AUC | Test F1 | Cost threshold | Test business cost |
+| --- | --- | ---: | ---: | ---: | ---: |
+| XGBoost | no_leakage | 0.9325 | 0.7247 | 0.88 | 1032 |
+| Random Forest | no_leakage | 0.9188 | 0.6706 | 0.84 | 1063 |
+| Logistic Regression | no_leakage | 0.8599 | 0.3339 | 0.92 | 1772 |
 
 ## Production Inference
 
@@ -216,8 +222,9 @@ matplotlib backend: ROC curve, precision-recall curve, confusion matrix,
 threshold-vs-cost curve, and feature-importance bars.
 
 `shap_analysis` computes mean absolute SHAP values for the saved XGBoost model
-on a sampled test set. This complements built-in feature importance with a more
-model-aware explanation of which transformed features drive predictions.
+on a sampled test set. In the no-leakage model, the strongest SHAP factors are
+currently `loan_int_rate`, `loan_percent_income`, `person_income`, home
+ownership, and loan intent.
 
 ## Documentation
 

@@ -1,10 +1,11 @@
 {
   "model": "xgboost",
+  "feature_set": "no_leakage",
   "rows": 45000,
   "test_rows": 9000,
   "n_bins": 10,
-  "brier_score": 0.0754,
-  "log_loss": 0.2191,
-  "calibration_curve_path": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/calibration_curve.csv",
+  "brier_score": 0.0851,
+  "log_loss": 0.2844,
+  "calibration_curve_path": "reports/calibration_curve.csv",
   "calibration_plot_path": null
 }

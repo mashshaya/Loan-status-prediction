@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix, precision_recall_curve, roc_curve
 
 from loan_status_prediction.artifacts import load_model_artifact, load_model_metadata
-from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR
+from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR, project_relative
 from loan_status_prediction.data import load_loan_data, make_train_test_split
 from loan_status_prediction.evaluation import BusinessCosts, business_cost, predict_with_threshold
 from loan_status_prediction.explainability import tree_feature_importance
@@ -35,10 +35,11 @@ def run_report_plots(
     output_dir: str | Path = REPORTS_DIR,
 ) -> dict:
     df = load_loan_data(data_path)
-    _, X_test, _, y_test = make_train_test_split(df)
     model = load_model_artifact(model_path)
     metadata = load_model_metadata(metadata_path)
-    threshold = float(metadata.get("threshold", 0.5))
+    threshold = float(metadata["threshold"])
+    feature_set = str(metadata.get("feature_set", "full"))
+    _, X_test, _, y_test = make_train_test_split(df, feature_set=feature_set)
 
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -102,15 +103,16 @@ def run_report_plots(
 
     report = {
         "model": metadata.get("model", str(model_path)),
+        "feature_set": feature_set,
         "threshold": threshold,
-        "roc_curve_csv": str(roc_csv),
-        "roc_curve_svg": roc_svg,
-        "precision_recall_curve_csv": str(pr_csv),
-        "precision_recall_curve_svg": pr_svg,
-        "confusion_matrix_svg": cm_svg,
-        "threshold_cost_curve_csv": str(threshold_csv),
-        "threshold_cost_curve_svg": threshold_svg,
-        "feature_importance_svg": importance_svg,
+        "roc_curve_csv": project_relative(roc_csv),
+        "roc_curve_svg": project_relative(roc_svg),
+        "precision_recall_curve_csv": project_relative(pr_csv),
+        "precision_recall_curve_svg": project_relative(pr_svg),
+        "confusion_matrix_svg": project_relative(cm_svg),
+        "threshold_cost_curve_csv": project_relative(threshold_csv),
+        "threshold_cost_curve_svg": project_relative(threshold_svg),
+        "feature_importance_svg": project_relative(importance_svg),
     }
     json_path = output_dir / "plot_report.json"
     json_path.write_text(json.dumps(report, indent=2), encoding="utf-8")

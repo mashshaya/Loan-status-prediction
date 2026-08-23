@@ -12,7 +12,14 @@ import pandas as pd
 from scipy import sparse
 
 from loan_status_prediction.artifacts import load_model_artifact, load_model_metadata
-from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, RANDOM_STATE, REPORTS_DIR
+from loan_status_prediction.config import (
+    BEST_MODEL_METADATA_PATH,
+    BEST_MODEL_PATH,
+    DATA_PATH,
+    RANDOM_STATE,
+    REPORTS_DIR,
+    project_relative,
+)
 from loan_status_prediction.data import load_loan_data, make_train_test_split
 from loan_status_prediction.explainability import get_feature_names
 from loan_status_prediction.svg_reports import bar_chart_svg
@@ -59,9 +66,10 @@ def run_shap_report(
     top_n: int = 25,
 ) -> dict:
     df = load_loan_data(data_path)
-    _, X_test, _, _ = make_train_test_split(df)
     model = load_model_artifact(model_path)
     metadata = load_model_metadata(metadata_path)
+    feature_set = str(metadata.get("feature_set", "full"))
+    _, X_test, _, _ = make_train_test_split(df, feature_set=feature_set)
 
     if metadata.get("model") and metadata["model"] != "xgboost":
         raise ValueError(f"SHAP report expects an XGBoost model, got {metadata['model']!r}.")
@@ -80,10 +88,11 @@ def run_shap_report(
 
     report = {
         "model": metadata.get("model", str(model_path)),
+        "feature_set": feature_set,
         "sample_size": min(sample_size, len(X_test)),
         "top_n": top_n,
-        "shap_importance_path": str(output_path),
-        "shap_importance_svg": svg_path,
+        "shap_importance_path": project_relative(output_path),
+        "shap_importance_svg": project_relative(svg_path),
         "top_features": importance.head(10).to_dict(orient="records"),
     }
     json_path = output_path.with_suffix(".json")

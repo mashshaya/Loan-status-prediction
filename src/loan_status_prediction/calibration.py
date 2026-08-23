@@ -13,7 +13,7 @@ from sklearn.calibration import calibration_curve
 from sklearn.metrics import brier_score_loss, log_loss
 
 from loan_status_prediction.artifacts import load_model_artifact, load_model_metadata
-from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR
+from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR, project_relative
 from loan_status_prediction.data import load_loan_data, make_train_test_split
 
 
@@ -26,9 +26,10 @@ def run_calibration_report(
     save_plot: bool = False,
 ) -> dict:
     df = load_loan_data(data_path)
-    _, X_test, _, y_test = make_train_test_split(df)
     model = load_model_artifact(model_path)
     metadata = load_model_metadata(metadata_path)
+    feature_set = str(metadata.get("feature_set", "full"))
+    _, X_test, _, y_test = make_train_test_split(df, feature_set=feature_set)
 
     y_proba = np.asarray(model.predict_proba(X_test))[:, 1]
     prob_true, prob_pred = calibration_curve(y_test, y_proba, n_bins=n_bins, strategy="quantile")
@@ -65,13 +66,14 @@ def run_calibration_report(
     json_path = output_path.with_suffix(".json")
     report = {
         "model": metadata.get("model", str(model_path)),
+        "feature_set": feature_set,
         "rows": int(len(df)),
         "test_rows": int(len(X_test)),
         "n_bins": n_bins,
         "brier_score": round(float(brier_score_loss(y_test, y_proba)), 4),
         "log_loss": round(float(log_loss(y_test, y_proba)), 4),
-        "calibration_curve_path": str(output_path),
-        "calibration_plot_path": str(plot_path) if plot_path else None,
+        "calibration_curve_path": project_relative(output_path),
+        "calibration_plot_path": project_relative(plot_path) if plot_path else None,
     }
     json_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     return report

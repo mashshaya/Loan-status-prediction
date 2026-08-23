@@ -16,34 +16,37 @@ The current local dataset contains 45,000 rows and 14 columns. The target is
 
 ## Model
 
-The current best model is XGBoost selected by business cost. The saved local
-metadata reports:
+The current best model is XGBoost selected by validation business cost. The
+production-style path uses the `no_leakage` feature set, excluding
+`previous_loan_defaults_on_file`.
 
-- ROC-AUC: `0.9753`
-- best F1: `0.8359`
-- selected threshold: `0.95`
-- business cost: `884`
+- test ROC-AUC: `0.9325`
+- test F1 at selected threshold: `0.7247`
+- selected threshold: `0.88`
+- validation business cost: `1048`
+- test business cost: `1032`
 
 Repeated cross-validation produced:
 
-- XGBoost ROC-AUC mean: `0.9751`
-- XGBoost F1 mean: `0.8095`
+- XGBoost ROC-AUC mean: `0.9348`
+- XGBoost F1 mean: `0.7657`
 
 ## Key Factors
 
 SHAP analysis highlights the strongest drivers:
 
-- `previous_loan_defaults_on_file`
-- `loan_percent_income`
 - `loan_int_rate`
+- `loan_percent_income`
 - `person_income`
 - `person_home_ownership`
+- `loan_intent`
 
 ## Limitations
 
 The feature `previous_loan_defaults_on_file` is a major leakage or business-rule
 risk. In the current dataset, category `Yes` maps to a `0.0` positive target
-rate. This feature must be confirmed as available before the loan decision.
+rate. It is excluded from the default model, but full-feature experiments remain
+useful for understanding the dataset.
 
 Fairness diagnostics show large gaps for `person_home_ownership`, especially
 recall. This requires deeper review before any real-world interpretation.

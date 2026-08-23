@@ -1,7 +1,13 @@
 import pandas as pd
 import pytest
 
-from loan_status_prediction.data import FEATURE_COLUMNS, TARGET_COLUMN, split_features_target, validate_loan_data
+from loan_status_prediction.data import (
+    FEATURE_COLUMNS,
+    TARGET_COLUMN,
+    get_feature_columns,
+    split_features_target,
+    validate_loan_data,
+)
 
 
 def test_validate_loan_data_rejects_missing_columns():
@@ -35,3 +41,8 @@ def test_split_features_target_returns_expected_columns():
 
     assert list(X.columns) == FEATURE_COLUMNS
     assert y.tolist() == [1]
+
+
+def test_no_leakage_feature_set_excludes_previous_defaults():
+    assert "previous_loan_defaults_on_file" not in get_feature_columns("no_leakage")
+    assert "previous_loan_defaults_on_file" in get_feature_columns("full")

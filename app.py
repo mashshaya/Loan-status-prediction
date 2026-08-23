@@ -77,10 +77,11 @@ def build_sidebar_inputs(sample: pd.Series) -> pd.DataFrame:
 
 try:
     model, metadata = get_model()
-    threshold = float(metadata.get("threshold", 0.5))
+    threshold = float(metadata["threshold"])
+    feature_set = str(metadata.get("feature_set", "full"))
     sample_df = load_sample_applications()
     application = build_sidebar_inputs(sample_df.iloc[0])
-    prediction = predict_rows(model, application, threshold)
+    prediction = predict_rows(model, application, threshold, feature_set=feature_set)
     probability = float(prediction["loan_status_probability"].iloc[0])
     decision = int(prediction["loan_status_prediction"].iloc[0])
 
@@ -88,6 +89,7 @@ try:
     col1.metric("Predicted probability", f"{probability:.1%}")
     col2.metric("Decision threshold", f"{threshold:.2f}")
     col3.metric("Predicted class", "Approve / positive" if decision else "Reject / negative")
+    st.caption(f"Loaded model feature set: `{feature_set}`")
 
     st.subheader("Application")
     st.dataframe(application, width="stretch")

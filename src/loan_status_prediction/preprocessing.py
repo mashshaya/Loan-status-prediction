@@ -7,10 +7,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from loan_status_prediction.config import RANDOM_STATE
-from loan_status_prediction.data import CATEGORICAL_FEATURES, NUMERIC_FEATURES
+from loan_status_prediction.data import get_categorical_features, get_numeric_features
 
 
-def build_preprocessor() -> ColumnTransformer:
+def build_preprocessor(feature_set: str = "full") -> ColumnTransformer:
     numeric_pipeline = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="median")),
@@ -25,16 +25,16 @@ def build_preprocessor() -> ColumnTransformer:
     )
     return ColumnTransformer(
         transformers=[
-            ("numeric", numeric_pipeline, NUMERIC_FEATURES),
-            ("categorical", categorical_pipeline, CATEGORICAL_FEATURES),
+            ("numeric", numeric_pipeline, get_numeric_features(feature_set)),
+            ("categorical", categorical_pipeline, get_categorical_features(feature_set)),
         ]
     )
 
 
-def build_logistic_baseline_pipeline() -> Pipeline:
+def build_logistic_baseline_pipeline(feature_set: str = "full") -> Pipeline:
     return Pipeline(
         steps=[
-            ("preprocessor", build_preprocessor()),
+            ("preprocessor", build_preprocessor(feature_set)),
             (
                 "classifier",
                 LogisticRegression(

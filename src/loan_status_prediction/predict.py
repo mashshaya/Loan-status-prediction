@@ -9,13 +9,13 @@ import numpy as np
 
 from loan_status_prediction.artifacts import load_model_artifact, load_model_metadata
 from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, PROJECT_ROOT
-from loan_status_prediction.data import FEATURE_COLUMNS, validate_feature_data
+from loan_status_prediction.data import get_feature_columns, validate_feature_data
 from loan_status_prediction.evaluation import predict_with_threshold
 
 
-def predict_rows(model, features: pd.DataFrame, threshold: float) -> pd.DataFrame:
-    validate_feature_data(features)
-    probabilities = np.asarray(model.predict_proba(features[FEATURE_COLUMNS]))[:, 1]
+def predict_rows(model, features: pd.DataFrame, threshold: float, feature_set: str = "full") -> pd.DataFrame:
+    validate_feature_data(features, feature_set)
+    probabilities = np.asarray(model.predict_proba(features[get_feature_columns(feature_set)]))[:, 1]
     predictions = predict_with_threshold(probabilities, threshold)
     output = features.copy()
     output["loan_status_probability"] = probabilities.round(6)
@@ -26,7 +26,9 @@ def predict_rows(model, features: pd.DataFrame, threshold: float) -> pd.DataFram
 def resolve_threshold(cli_threshold: float | None, metadata: dict) -> float:
     if cli_threshold is not None:
         return cli_threshold
-    return float(metadata.get("threshold", 0.5))
+    if "threshold" not in metadata:
+        raise ValueError("Model metadata must include a decision threshold.")
+    return float(metadata["threshold"])
 
 
 def run_batch_prediction(
@@ -38,9 +40,10 @@ def run_batch_prediction(
 ) -> dict[str, str | float | int]:
     metadata = load_model_metadata(metadata_path)
     resolved_threshold = resolve_threshold(threshold, metadata)
+    feature_set = str(metadata.get("feature_set", "full"))
     model = load_model_artifact(model_path)
     input_df = pd.read_csv(input_path)
-    output_df = predict_rows(model, input_df, resolved_threshold)
+    output_df = predict_rows(model, input_df, resolved_threshold, feature_set=feature_set)
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -50,6 +53,7 @@ def run_batch_prediction(
         "output_path": str(output_path),
         "model_path": str(model_path),
         "threshold": resolved_threshold,
+        "feature_set": feature_set,
         "rows": int(len(output_df)),
     }
 

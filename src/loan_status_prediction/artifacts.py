@@ -6,7 +6,7 @@ from typing import Any
 
 import joblib
 
-from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, MODELS_DIR
+from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, MODELS_DIR, project_relative
 
 
 def save_best_model_artifact(model: Any, metadata: dict[str, Any]) -> dict[str, str]:
@@ -14,8 +14,8 @@ def save_best_model_artifact(model: Any, metadata: dict[str, Any]) -> dict[str, 
     joblib.dump(model, BEST_MODEL_PATH)
     BEST_MODEL_METADATA_PATH.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     return {
-        "model_path": str(BEST_MODEL_PATH),
-        "metadata_path": str(BEST_MODEL_METADATA_PATH),
+        "model_path": project_relative(BEST_MODEL_PATH),
+        "metadata_path": project_relative(BEST_MODEL_METADATA_PATH),
     }
 
 
@@ -26,5 +26,5 @@ def load_model_artifact(model_path: str | Path = BEST_MODEL_PATH) -> Any:
 def load_model_metadata(metadata_path: str | Path = BEST_MODEL_METADATA_PATH) -> dict[str, Any]:
     path = Path(metadata_path)
     if not path.exists():
-        return {}
+        raise FileNotFoundError(f"Model metadata not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))

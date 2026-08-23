@@ -9,5 +9,7 @@ models/*.joblib
 models/*.pkl
 models/best_model_metadata.json
 reports/predictions.csv
+reports/sample_predictions.csv
+reports/ci_*.json
 reports/*.html
 reports/*.png

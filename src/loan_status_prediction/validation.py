@@ -10,7 +10,7 @@ from sklearn.model_selection import RepeatedStratifiedKFold, cross_validate
 
 os.environ.setdefault("LOKY_MAX_CPU_COUNT", "1")
 
-from loan_status_prediction.config import DATA_PATH, RANDOM_STATE, REPORTS_DIR
+from loan_status_prediction.config import DATA_PATH, RANDOM_STATE, REPORTS_DIR, project_relative
 from loan_status_prediction.data import load_loan_data, split_features_target
 from loan_status_prediction.modeling import candidate_pipelines
 from loan_status_prediction.train_models import class_ratio
@@ -42,11 +42,12 @@ def run_cross_validation(
     cv_splits: int = 3,
     repeats: int = 2,
     output_path: str | Path = REPORTS_DIR / "cross_validation_report.csv",
+    feature_set: str = "no_leakage",
 ) -> dict:
     df = load_loan_data(data_path)
-    X, y = split_features_target(df)
+    X, y = split_features_target(df, feature_set=feature_set)
     selected_model_names = model_names or ["logistic_regression", "xgboost"]
-    pipelines = candidate_pipelines(scale_pos_weight=class_ratio(y))
+    pipelines = candidate_pipelines(scale_pos_weight=class_ratio(y), feature_set=feature_set)
     cv = RepeatedStratifiedKFold(n_splits=cv_splits, n_repeats=repeats, random_state=RANDOM_STATE)
 
     summaries = []
@@ -73,7 +74,8 @@ def run_cross_validation(
         "cv_splits": cv_splits,
         "repeats": repeats,
         "folds_total": cv_splits * repeats,
-        "cross_validation_report_path": str(output_path),
+        "feature_set": feature_set,
+        "cross_validation_report_path": project_relative(output_path),
         "models": report_df.to_dict(orient="records"),
     }
     json_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -91,13 +93,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--cv-splits", type=int, default=3)
     parser.add_argument("--repeats", type=int, default=2)
+    parser.add_argument("--feature-set", default="no_leakage", choices=["full", "no_leakage"])
     parser.add_argument("--output-path", default=str(REPORTS_DIR / "cross_validation_report.csv"))
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    report = run_cross_validation(args.data_path, args.models, args.cv_splits, args.repeats, args.output_path)
+    report = run_cross_validation(args.data_path, args.models, args.cv_splits, args.repeats, args.output_path, args.feature_set)
     print(json.dumps(report, indent=2))
 
 

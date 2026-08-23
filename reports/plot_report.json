@@ -1,12 +1,13 @@
 {
   "model": "xgboost",
-  "threshold": 0.95,
-  "roc_curve_csv": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/roc_curve.csv",
-  "roc_curve_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/roc_curve.svg",
-  "precision_recall_curve_csv": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/precision_recall_curve.csv",
-  "precision_recall_curve_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/precision_recall_curve.svg",
-  "confusion_matrix_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/confusion_matrix.svg",
-  "threshold_cost_curve_csv": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/threshold_cost_curve.csv",
-  "threshold_cost_curve_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/threshold_cost_curve.svg",
-  "feature_importance_svg": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/feature_importance.svg"
+  "feature_set": "no_leakage",
+  "threshold": 0.88,
+  "roc_curve_csv": "reports/roc_curve.csv",
+  "roc_curve_svg": "reports/roc_curve.svg",
+  "precision_recall_curve_csv": "reports/precision_recall_curve.csv",
+  "precision_recall_curve_svg": "reports/precision_recall_curve.svg",
+  "confusion_matrix_svg": "reports/confusion_matrix.svg",
+  "threshold_cost_curve_csv": "reports/threshold_cost_curve.csv",
+  "threshold_cost_curve_svg": "reports/threshold_cost_curve.svg",
+  "feature_importance_svg": "reports/feature_importance.svg"
 }

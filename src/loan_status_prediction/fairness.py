@@ -9,7 +9,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 from loan_status_prediction.artifacts import load_model_artifact, load_model_metadata
-from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR
+from loan_status_prediction.config import BEST_MODEL_METADATA_PATH, BEST_MODEL_PATH, DATA_PATH, REPORTS_DIR, project_relative
 from loan_status_prediction.data import load_loan_data, make_train_test_split
 from loan_status_prediction.evaluation import predict_with_threshold
 
@@ -38,11 +38,15 @@ def group_metrics(
     rows = []
     for group_value in sorted(groups.dropna().unique()):
         mask = groups == group_value
+        positive_count = int(y_true[mask].sum())
+        predicted_positive_count = int(y_pred[mask].sum())
         rows.append(
             {
                 "group_feature": group_feature,
                 "group_value": str(group_value),
                 "rows": int(mask.sum()),
+                "positive_count": positive_count,
+                "predicted_positive_count": predicted_positive_count,
                 "target_rate": round(float(y_true[mask].mean()), 4),
                 "approval_rate": round(float(y_pred[mask].mean()), 4),
                 "avg_score": round(float(y_proba[mask].mean()), 4),
@@ -78,10 +82,11 @@ def run_fairness_report(
     output_path: str | Path = REPORTS_DIR / "fairness_report.csv",
 ) -> dict:
     df = load_loan_data(data_path)
-    _, X_test, _, y_test = make_train_test_split(df)
     model = load_model_artifact(model_path)
     metadata = load_model_metadata(metadata_path)
-    threshold = float(metadata.get("threshold", 0.5))
+    threshold = float(metadata["threshold"])
+    feature_set = str(metadata.get("feature_set", "full"))
+    _, X_test, _, y_test = make_train_test_split(df, feature_set=feature_set)
 
     y_proba = model.predict_proba(X_test)[:, 1]
     y_pred = predict_with_threshold(y_proba, threshold)
@@ -102,9 +107,10 @@ def run_fairness_report(
 
     return {
         "threshold": threshold,
+        "feature_set": feature_set,
         "model": metadata.get("model", str(model_path)),
-        "fairness_report_path": str(output_path),
-        "fairness_gaps_path": str(gap_path),
+        "fairness_report_path": project_relative(output_path),
+        "fairness_gaps_path": project_relative(gap_path),
         "largest_gap": max(gaps, key=lambda row: row["gap"]) if gaps else None,
     }
 

@@ -10,10 +10,10 @@ from loan_status_prediction.config import RANDOM_STATE
 from loan_status_prediction.preprocessing import build_preprocessor
 
 
-def build_logistic_pipeline() -> ImbPipeline:
+def build_logistic_pipeline(feature_set: str = "full") -> ImbPipeline:
     return ImbPipeline(
         steps=[
-            ("preprocessor", build_preprocessor()),
+            ("preprocessor", build_preprocessor(feature_set)),
             (
                 "classifier",
                 LogisticRegression(
@@ -26,10 +26,10 @@ def build_logistic_pipeline() -> ImbPipeline:
     )
 
 
-def build_random_forest_pipeline() -> ImbPipeline:
+def build_random_forest_pipeline(feature_set: str = "full") -> ImbPipeline:
     return ImbPipeline(
         steps=[
-            ("preprocessor", build_preprocessor()),
+            ("preprocessor", build_preprocessor(feature_set)),
             ("sampler", SMOTE(random_state=RANDOM_STATE)),
             (
                 "classifier",
@@ -44,11 +44,10 @@ def build_random_forest_pipeline() -> ImbPipeline:
     )
 
 
-def build_xgboost_pipeline(scale_pos_weight: float = 1.0) -> ImbPipeline:
+def build_xgboost_pipeline(scale_pos_weight: float = 1.0, feature_set: str = "full") -> ImbPipeline:
     return ImbPipeline(
         steps=[
-            ("preprocessor", build_preprocessor()),
-            ("sampler", SMOTE(random_state=RANDOM_STATE)),
+            ("preprocessor", build_preprocessor(feature_set)),
             (
                 "classifier",
                 XGBClassifier(
@@ -64,11 +63,11 @@ def build_xgboost_pipeline(scale_pos_weight: float = 1.0) -> ImbPipeline:
     )
 
 
-def candidate_pipelines(scale_pos_weight: float = 1.0) -> dict[str, ImbPipeline]:
+def candidate_pipelines(scale_pos_weight: float = 1.0, feature_set: str = "full") -> dict[str, ImbPipeline]:
     return {
-        "logistic_regression": build_logistic_pipeline(),
-        "random_forest": build_random_forest_pipeline(),
-        "xgboost": build_xgboost_pipeline(scale_pos_weight=scale_pos_weight),
+        "logistic_regression": build_logistic_pipeline(feature_set),
+        "random_forest": build_random_forest_pipeline(feature_set),
+        "xgboost": build_xgboost_pipeline(scale_pos_weight=scale_pos_weight, feature_set=feature_set),
     }
 
 

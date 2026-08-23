@@ -1,6 +1,8 @@
 # Model Reliability Checks
 
-The project separates three reliability checks from ordinary model training.
+The project separates reliability checks from ordinary model training. By
+default, these checks use the saved `no_leakage` model metadata so threshold and
+feature set match the training run.
 
 ## Fairness
 
@@ -35,7 +37,9 @@ The command runs repeated stratified cross-validation and writes:
 - `reports/cross_validation_report.csv`
 - `reports/cross_validation_report.json`
 
-This helps avoid overtrusting a single train/test split.
+This helps avoid overtrusting a single train/test split. The main training
+workflow also uses train/validation/test so threshold selection is not performed
+on the final test split.
 
 ## Calibration
 

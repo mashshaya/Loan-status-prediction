@@ -37,7 +37,7 @@ def test_run_calibration_report_writes_outputs(tmp_path, monkeypatch):
     monkeypatch.setattr("loan_status_prediction.calibration.load_model_artifact", lambda _: FakeModel())
     monkeypatch.setattr(
         "loan_status_prediction.calibration.make_train_test_split",
-        lambda loaded_df: (None, loaded_df.drop(columns=["loan_status"]), None, loaded_df["loan_status"]),
+        lambda loaded_df, **_: (None, loaded_df.drop(columns=["loan_status"]), None, loaded_df["loan_status"]),
     )
 
     report = run_calibration_report(

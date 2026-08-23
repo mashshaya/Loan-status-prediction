@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from loan_status_prediction.predict import predict_rows, resolve_threshold
 
@@ -32,8 +33,19 @@ def test_resolve_threshold_prefers_cli_value():
     assert resolve_threshold(0.4, {"threshold": 0.8}) == 0.4
 
 
+def test_resolve_threshold_requires_metadata_threshold():
+    with pytest.raises(ValueError, match="decision threshold"):
+        resolve_threshold(None, {})
+
+
 def test_predict_rows_adds_probability_and_prediction_columns():
     output = predict_rows(FakeModel(), sample_features(), threshold=0.5)
 
     assert output["loan_status_probability"].tolist() == [0.2, 0.7]
+    assert output["loan_status_prediction"].tolist() == [0, 1]
+
+
+def test_predict_rows_supports_no_leakage_feature_set():
+    output = predict_rows(FakeModel(), sample_features(), threshold=0.5, feature_set="no_leakage")
+
     assert output["loan_status_prediction"].tolist() == [0, 1]

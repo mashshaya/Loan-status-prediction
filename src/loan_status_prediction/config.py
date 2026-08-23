@@ -15,3 +15,11 @@ DEFAULT_BUSINESS_COSTS = {
     "false_positive": 5.0,
     "false_negative": 1.0,
 }
+
+
+def project_relative(path: str | Path) -> str:
+    resolved_path = Path(path).resolve()
+    try:
+        return str(resolved_path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)

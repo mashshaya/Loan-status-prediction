@@ -20,3 +20,7 @@ jobs:
         run: PYTHONPATH=src python -m pytest
       - name: Smoke test sample prediction imports
         run: PYTHONPATH=src python -c "from loan_status_prediction.demo_data import load_sample_applications; assert len(load_sample_applications()) > 0"
+      - name: Smoke test baseline training
+        run: PYTHONPATH=src python -m loan_status_prediction.train_baseline --data-path examples/synthetic_loan_data.csv --feature-set no_leakage
+      - name: Smoke test leakage diagnostics
+        run: PYTHONPATH=src python -m loan_status_prediction.leakage --data-path examples/synthetic_loan_data.csv --output-path reports/ci_leakage_check.json

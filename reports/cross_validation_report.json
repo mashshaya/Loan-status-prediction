@@ -3,29 +3,30 @@
   "cv_splits": 3,
   "repeats": 1,
   "folds_total": 3,
-  "cross_validation_report_path": "/Users/maria/Documents/Codex/2026-08-19/github-cli-gh-codex/work/Loan-status-prediction/reports/cross_validation_report.csv",
+  "feature_set": "no_leakage",
+  "cross_validation_report_path": "reports/cross_validation_report.csv",
   "models": [
     {
       "model": "xgboost",
-      "roc_auc_mean": 0.9751,
-      "roc_auc_std": 0.001,
-      "f1_mean": 0.8095,
-      "f1_std": 0.0019,
-      "precision_mean": 0.7321,
-      "precision_std": 0.0031,
-      "recall_mean": 0.9052,
-      "recall_std": 0.0021
+      "roc_auc_mean": 0.9348,
+      "roc_auc_std": 0.0014,
+      "f1_mean": 0.7657,
+      "f1_std": 0.0013,
+      "precision_mean": 0.7505,
+      "precision_std": 0.0061,
+      "recall_mean": 0.7816,
+      "recall_std": 0.0091
     },
     {
       "model": "logistic_regression",
-      "roc_auc_mean": 0.9539,
-      "roc_auc_std": 0.0015,
-      "f1_mean": 0.7415,
-      "f1_std": 0.0037,
-      "precision_mean": 0.6207,
-      "precision_std": 0.0042,
-      "recall_mean": 0.9209,
-      "recall_std": 0.0023
+      "roc_auc_mean": 0.859,
+      "roc_auc_std": 0.0013,
+      "f1_mean": 0.61,
+      "f1_std": 0.0006,
+      "precision_mean": 0.5018,
+      "precision_std": 0.0035,
+      "recall_mean": 0.7779,
+      "recall_std": 0.0066
     }
   ]
 }
